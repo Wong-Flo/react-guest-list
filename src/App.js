@@ -7,7 +7,20 @@ export default function App() {
   const [lastNameInput, setLastNameInput] = useState('');
   const [guests, setGuests] = useState([]);
   const addGuest = (firstName, lastName) => {
-    setGuests([...guests, { firstName, lastName }]);
+    const newGuest = {
+      id: guests.length + 1,
+      firstName,
+      lastName,
+      isAttending: false,
+    };
+    setGuests([...guests, newGuest]);
+  };
+  const attendance = (id) => {
+    setGuests((prevGuests) =>
+      prevGuests.map((guest) =>
+        guest.id === id ? { ...guest, isAttending: !guest.isAttending } : guest,
+      ),
+    );
   };
   return (
     <>
@@ -22,9 +35,7 @@ export default function App() {
 
       <hr />
       <h2>Attending or not Attending</h2>
-      <GuestList guests={guests} />
-      <input type="checkbox" />
-      <button>Remove</button>
+      <GuestList guests={guests} attendance={attendance} />
     </>
   );
 }
