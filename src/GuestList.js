@@ -1,7 +1,7 @@
-export default function GuestList({ guests, attendance }) {
+export default function GuestList({ guests, attendance, removeGuest }) {
   return (
     <div data-test-id="guest">
-      <h3>Guest List</h3>
+      <h2>Guest List</h2>
       <table>
         <thead>
           <tr>
@@ -16,16 +16,23 @@ export default function GuestList({ guests, attendance }) {
             <tr key={`guest-${guest.id}`}>
               <td> {guest.firstName} </td>
               <td> {guest.lastName}</td>
-              <td>
+              <td aria-label="attending">
                 <input
                   type="checkbox"
                   checked={guest.isAttending}
                   onChange={() => attendance(guest.id)}
                 />
+
                 {guest.isAttending ? 'Attending' : 'Not Attending'}
               </td>
+
               <td>
-                <button>Remove</button>
+                <button
+                  aria-label="Remove"
+                  onClick={() => removeGuest(guest.id)}
+                >
+                  Remove
+                </button>
               </td>
             </tr>
           ))}

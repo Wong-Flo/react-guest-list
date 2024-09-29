@@ -15,6 +15,9 @@ export default function App() {
     };
     setGuests([...guests, newGuest]);
   };
+  const removeGuest = (id) => {
+    setGuests(guests.filter((guest) => guest.id !== id));
+  };
   const attendance = (id) => {
     setGuests((prevGuests) =>
       prevGuests.map((guest) =>
@@ -34,8 +37,11 @@ export default function App() {
       />
 
       <hr />
-      <h2>Attending or not Attending</h2>
-      <GuestList guests={guests} attendance={attendance} />
+      <GuestList
+        guests={guests}
+        attendance={attendance}
+        removeGuest={removeGuest}
+      />
     </>
   );
 }
