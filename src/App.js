@@ -18,7 +18,11 @@ export default function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ firstName, lastName }),
+        body: JSON.stringify({
+          firstName: firstName,
+          lastName: lastName,
+          isAttending: false,
+        }),
       });
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
