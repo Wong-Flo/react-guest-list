@@ -1,20 +1,36 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import GuestForm from './GuestForm';
 import GuestList from './GuestList';
 
+const baseUrl = 'http://localhost:4000';
+// States for the following
 export default function App() {
   const [firstNameInput, setFirstNameInput] = useState('');
   const [lastNameInput, setLastNameInput] = useState('');
   const [guests, setGuests] = useState([]);
-  const addGuest = (firstName, lastName) => {
-    const newGuest = {
-      id: guests.length + 1,
-      firstName,
-      lastName,
-      isAttending: false,
-    };
-    setGuests([...guests, newGuest]);
+
+  // Adding new Guest to API
+
+  const addGuest = async (firstName, lastName) => {
+    try {
+      const response = await fetch(`${baseUrl}/guests`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ firstName, lastName }),
+      });
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+      const newGuest = await response.json();
+
+      setGuests([...guests, newGuest]);
+    } catch (error) {
+      console.error('Failed to add guest:', error);
+    }
   };
+
   const removeGuest = (id) => {
     setGuests(guests.filter((guest) => guest.id !== id));
   };
